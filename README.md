@@ -1,2 +1,2 @@
-# dik-algorave-fortunte-site
+# dik-algorave-fortune-site
 Interactive website for algorave project.
