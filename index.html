@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- makes the page scale properly on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fortune Slots – Final Project</title>
+
+  <!-- all the looks live in style.css, I keep it separate so this file stays tidy -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- top part of the page: title + the actual slot machine -->
+  <header class="hero">
+    <div class="hero-text">
+      <h1>Fortune Slots</h1>
+      <p class="tagline">Pull the lever. Let five words decide your future.</p>
+    </div>
+
+    <!-- this div starts out empty, script.js drops the Pixi canvas in here -->
+    <div id="pixi-container"></div>
+
+    <div class="controls">
+      <button id="spin-button">STOP</button>
+      <p class="hint">A somewhat faithful recreation of the project, though with only 3 slots and no ai model.</p>
+    </div>
+
+    <!-- the fortune shows up here after all 5 reels have stopped -->
+    <div id="fortune-box" aria-live="polite">
+      <p id="fortune-words"></p>
+      <p id="fortune-text">Stop all five reels to reveal your fortune...</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- a bit about me, placeholder for now -->
+    <section id="about-me">
+      <h2>About me</h2>
+      <div class="two-col">
+        <!-- ASCII smiley instead of a photo, fits the old computer vibe better -->
+        <pre class="smiley" role="img" aria-label="Smiley face">
+   .-""""""-.
+  /  _    _  \
+ |  (@)  (@)  |
+ |            |
+ |  \______/  |
+  \          /
+   '-.____.-'</pre>
+        <div>
+          <p><strong>Hampus Edgren</strong></p>
+          <p>
+            I'm Hampus, gambling fan and beuraucratic wunderkind - please adress me as such. I'm a student at Södertörn University, studying IT Media & Design
+            and have created this project as my final assignment for the course Creative Coding together with my classmate Daniel Tytskiy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- explains what the project is with three little step cards -->
+    <section id="about-project">
+      <h2>About the project</h2>
+      <p>
+        Fortune Slots is a slot machine that tells your fortune. You press a button to stop
+        five spinning reels, just like a real slot machine, but instead of fruit and
+        sevens each reel lands on a random word. The five words are then sent to a
+        local AI model that writes a short fortune for you.
+      </p>
+
+      <div class="cards">
+        <article>
+          <img src="images/slotmachine_shuffle.png" alt="The slot machine with the five reels spinning">
+          <h3>1. Spin</h3>
+          <p>Five reels of words spin.</p>
+        </article>
+        <article>
+          <img src="images/slotmachine_stop.png" alt="The slot machine with the reels stopped on five words">
+          <h3>2. Stop</h3>
+          <p>You stop each reel and five random words are picked.</p>
+        </article>
+        <article>
+          <img src="images/slotmachine_fortune.png" alt="The slot machine showing the generated fortune">
+          <h3>3. Fortune</h3>
+          <p>A local AI turns the words into a fortune.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- photos of the real physical slot machine (front and back) -->
+    <section id="installation">
+      <h2>The installation</h2>
+      <p>
+        The physical slot machine in all its glory. You are prompted to press the button which is connected via a series of
+        connection cables to a microbit that sends serial to the laptop running the code.
+      </p>
+
+      <div class="photos">
+        <figure>
+          <img src="images/slotmachine_front.jpg" alt="The physical slot machine seen from the front">
+          <figcaption>Front</figcaption>
+        </figure>
+        <figure>
+          <img src="images/slotmachine_back.jpg" alt="The physical slot machine seen from the back">
+          <figcaption>Back</figcaption>
+        </figure>
+      </div>
+
+      <!-- short video of people using the installation -->
+      <h3>In use</h3>
+      <video controls playsinline preload="metadata">
+        <source src="video.mp4" type="video/mp4">
+        Your browser can't play this video.
+      </video>
+    </section>
+  </main>
+
+  <!-- Pixi.js comes from a CDN. It has to be loaded BEFORE script.js
+       otherwise my code can't find PIXI -->
+  <script src="https://cdn.jsdelivr.net/npm/pixi.js@8.6.6/dist/pixi.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

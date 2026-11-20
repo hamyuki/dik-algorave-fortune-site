@@ -1,0 +1,168 @@
+/* Colours for the old red-screen look.
+   If I want to change the theme later I only need to edit these four. */
+:root {
+  --bg: #080000;      /* almost black, just a tiny bit red like an old monitor */
+  --panel: #1a0000;   /* slightly lighter, used for boxes and cards */
+  --bright: #ff3333;  /* the glowing bright red */
+  --dim: #b81c1c;     /* softer red for normal text */
+}
+
+/* border-box means padding doesn't make things wider than I set them */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--dim);
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1.6;
+  /* tiny glow around every letter so it looks like a CRT */
+  text-shadow: 0 0 4px rgba(255, 51, 51, 0.5);
+}
+
+/* Scanlines. This is a see-through layer on top of the whole page with thin
+   dark stripes. pointer-events none so it doesn't block clicks. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.25) 3px
+  );
+  z-index: 10;
+}
+
+/* top section with the title and slot machine */
+.hero { text-align: center; padding: 24px 16px 40px; }
+
+h1 {
+  /* clamp = never smaller than 1.8rem, never bigger than 3.4rem, scales in between */
+  font-size: clamp(1.8rem, 6vw, 3.4rem);
+  margin: 0;
+  color: var(--bright);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 0 10px var(--bright);
+}
+/* fake terminal prompt in front of the title */
+h1::before { content: "> "; }
+
+.tagline { margin-top: 4px; }
+/* blinking block cursor after the tagline */
+.tagline::after {
+  content: "\2588";
+  margin-left: 6px;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* The box the Pixi canvas lives in. Pixi reads this size and
+   stretches the canvas to fit it, so the height here matters. */
+#pixi-container {
+  width: 100%;
+  max-width: 900px;
+  height: 420px;
+  margin: 16px auto;
+  border: 2px solid var(--bright);
+  box-shadow: 0 0 18px rgba(255, 51, 51, 0.4), inset 0 0 30px rgba(255, 51, 51, 0.15);
+  overflow: hidden;
+}
+/* canvases are inline by default which leaves a weird gap underneath, so block fixes it */
+#pixi-container canvas { display: block; }
+
+/* the STOP button, styled like a terminal command */
+button {
+  font-family: inherit;
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 12px 40px;
+  background: transparent;
+  color: var(--bright);
+  border: 2px solid var(--bright);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+/* square brackets around the text */
+button::before { content: "[ "; }
+button::after { content: " ]"; }
+/* on hover the colours flip, like a selected menu item in an old program */
+button:hover, button:active { background: var(--bright); color: var(--bg); text-shadow: none; }
+
+.hint { font-size: 0.8rem; opacity: 0.7; }
+
+/* the box where the fortune appears */
+#fortune-box {
+  max-width: 700px;
+  margin: 16px auto 0;
+  padding: 16px 20px;
+  background: var(--panel);
+  border: 1px dashed var(--dim);
+  text-align: left;
+}
+#fortune-words { color: var(--bright); font-weight: bold; letter-spacing: 2px; margin: 0 0 6px; }
+#fortune-text { font-size: 1.1rem; margin: 0; }
+
+/* the rest of the page below the machine */
+main { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+section { margin: 48px 0; }
+h2 { color: var(--bright); border-bottom: 1px solid var(--dim); padding-bottom: 6px; text-transform: uppercase; }
+h2::before { content: "# "; }
+h3 { color: var(--bright); }
+
+/* images shrink to fit their card, with a thin red border to match the theme */
+img {
+  max-width: 100%;
+  display: block;
+  border: 1px solid var(--dim);
+}
+
+/* the ASCII smiley in the about me part */
+.smiley {
+  margin: 0;
+  font-size: clamp(0.9rem, 3vw, 1.4rem);
+  line-height: 1.2;
+  color: var(--bright);
+  text-shadow: 0 0 10px var(--bright);
+  text-align: center;
+}
+
+/* smiley on the left, text on the right (the 1fr 2fr is the width ratio) */
+.two-col { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; align-items: center; }
+
+/* The images are screenshots with small details, so each card gets its own
+   row. That way the picture can use the full width and stay readable. */
+.cards { display: flex; flex-direction: column; gap: 32px; }
+.cards article { background: var(--panel); padding: 16px; border: 1px solid var(--dim); }
+.cards article h3 { margin: 16px 0 4px; }
+.cards article p { margin: 0; }
+
+/* the two installation photos sit side by side, same width each */
+.photos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.photos figure { margin: 0; }
+/* small caption under each photo */
+.photos figcaption { margin-top: 8px; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
+
+/* The video is exactly as wide as ONE of the photos above (half the row minus
+   half the gap) so it ends up about the same size as them. Centered under them. */
+video {
+  display: block;
+  width: calc(50% - 10px);
+  margin: 0 auto;
+  border: 1px solid var(--dim);
+  background: #000;
+}
+/* center the text above the video */
+#installation h3 { text-align: center; }
+
+/* on phones, stack everything in one column */
+@media (max-width: 600px) {
+  .two-col { grid-template-columns: 1fr; }
+  .photos { grid-template-columns: 1fr; }
+  video { width: 100%; }
+  #pixi-container { height: 360px; }
+}
